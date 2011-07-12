@@ -79,20 +79,24 @@ fribidi-src/charset/fribidi-char-sets-iso8859-6.c
         include_dirs = ["fribidi-src", "fribidi-src/lib", "fribidi-src/charset"]
         define_macros = [("HAVE_CONFIG_H", 1)]
 
-setup (name = "pyfribidi",
-        version = "0.10.0",
-        description = "Python libfribidi interface",
-        author = "Yaacov Zamir, Nir Soffer",
-        author_email = "kzamir@walla.co.il",
-        url = "http://hspell-gui.sourceforge.net/pyfribidi.html",
-        license = "GPL",
-       cmdclass={'build_ext': my_build_ext},
 
-        ext_modules = [ Extension(
-                name = 'pyfribidi',
-                sources = ['pyfribidi.c'] + lib_sources,
-                define_macros=define_macros,
-                libraries=libraries,
-                include_dirs=include_dirs,
-        )]
-)
+def read_long_description():
+    fn = os.path.join(os.path.dirname(os.path.abspath(__file__)), "README.rst")
+    return open(fn).read()
+
+
+setup(name="pyfribidi",
+      version="0.10.0",
+      description="Python libfribidi interface",
+      author="Yaacov Zamir, Nir Soffer",
+      author_email="kzamir@walla.co.il",
+      url="http://hspell-gui.sourceforge.net/pyfribidi.html",
+      license="GPL",
+      cmdclass={'build_ext': my_build_ext},
+      long_description=read_long_description(),
+      ext_modules=[Extension(
+            name='pyfribidi',
+            sources=['pyfribidi.c'] + lib_sources,
+            define_macros=define_macros,
+            libraries=libraries,
+            include_dirs=include_dirs)])
