@@ -161,6 +161,7 @@ include fribidi-src/test/test_UTF-8_reordernsm.reference
 include fribidi_systray.py
 include pyfribidi.c
 include pyfribidi.h
+include pyfribidi2.py
 include setup.py
 include syspath.py
 include test_pyfribidi.py

@@ -94,6 +94,7 @@ setup(name="pyfribidi",
       license="GPL",
       cmdclass={'build_ext': my_build_ext},
       long_description=read_long_description(),
+      py_modules=["pyfribidi2"],
       ext_modules=[Extension(
             name='pyfribidi',
             sources=['pyfribidi.c'] + lib_sources,
