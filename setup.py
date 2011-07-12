@@ -8,6 +8,13 @@ import os
 
 USE_SYSTEM_LIB = False
 
+if not os.path.exists("fribidi-src"):
+    USE_SYSTEM_LIB = True
+
+if os.environ.get("USE_SYSTEM_LIB", "False").lower() in ("yes", "1", "true"):
+    USE_SYSTEM_LIB = True
+
+
 class my_build_ext(build_ext.build_ext):
     def build_extension(self, ext):
         configure = os.path.abspath("fribidi-src/configure")
@@ -43,8 +50,8 @@ def _getpkgconfigvalue(value, package="fribidi"):
 
 if USE_SYSTEM_LIB:
     lib_sources = []
-    include_dirs = _getpkgconfigvalue("cflags-only-I")
-    libraries = _getpkgconfigvalue("libs-only-l"),
+    include_dirs = _getpkgconfigvalue("cflags-only-I") or ["/usr/include/fribidi"]
+    libraries = _getpkgconfigvalue("libs-only-l") or ["fribidi"]
     define_macros = []
     my_build_ext = build_ext.build_ext
 else:
