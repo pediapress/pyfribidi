@@ -43,7 +43,7 @@ _pyfribidi_log2vis (PyObject * self, PyObject * args, PyObject * kw)
 	static char *kwargs[] =
 		{ "logical", "base_direction", "encoding", "clean", NULL };
 
-	if (!PyArg_ParseTupleAndKeywords (args, kw, "O|lsI", kwargs,
+        if (!PyArg_ParseTupleAndKeywords (args, kw, "O|isi", kwargs,
 					  &logical, &base, &encoding, &clean))
 		return NULL;
 
