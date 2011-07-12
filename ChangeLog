@@ -1,0 +1,89 @@
+pyfribidi 0.10.0
+
+ * Change the package number in the setup.py script
+ 
+ -- kobi <kzamir@walla.co.il>  Wed, 3 Feb 2009 19:03:11 +0200
+ 
+pyfribidi 0.9.0
+
+ * Use fribidi 0.19 and above.
+ * Re-Change the package name from pyfribidi2 to pyfribidi
+ 
+ -- kobi <kzamir@walla.co.il>  Wed, 3 Feb 2009 12:59:24 +0200
+ 
+pyfribidi 0.8.0
+
+ * Yoann Roman: Fix Buffer too small with Arabic joining.
+ * Use fribidi2, fribidi 0.19 and above.
+ * Change the package name from pyfribidi to pyfribidi2
+ 
+ -- kobi <kzamir@walla.co.il>  Fri, 13 Mar 2009 12:59:24 +0200
+
+pyfribidi 0.5.0
+
+  API Changes:
+
+ * Nir Soffer: Accept either unicode or encoded string or subclasses
+ * Nir Soffer: Accept encoding keyword argument, support any encoding Python
+   support (encoding it ignored if you send unicode input)
+ * Nir Soffer: Accept base_direction keyword argument (was only positional before)
+ * Nir Soffer: Return the same type of input you sent, either unicode or str
+ * Nir Soffer: Updated docstrings
+
+  Internal Changes:
+
+ * Nir Soffer: new function log2vis_encoded_string handles strings using either
+   log2vis_utf8 or log2vis_unicode
+ * Nir Soffer: Updated docs
+ * Nir Soffer: Added more tests, organized tests by types
+
+ -- kobi <kzamir@walla.co.il>  Thu, 18 Jan 2006 00:59:24 +0200
+
+pyfribidi 0.3.6
+
+  * Nir Soffer: Raise ValueError for invalid base_dir_string.
+  * Nir Soffer: Added detailed docstring
+  * Nir Soffer: Use real unittests, add some tests.
+
+ -- kobi <kzamir@walla.co.il>  Thu, 12 Jan 2006 00:59:24 +0200
+
+pyfribidi 0.3.5
+
+  * Nir Soffer: add suggestion to use setup.py in the INSTALL file.
+  * add fribidi-systray.py example, this example use GTK and creates a system tray
+    icon that convert the content of the clipboard.
+
+ -- kobi <kzamir@walla.co.il>  Thu, 12 Jan 2006 00:59:24 +0200
+
+pyfribidi 0.3.2
+
+  * fix configure script to check for python devel files
+  * add base_dir opetion to the log2vis python function
+
+ -- kobi <kzamir@walla.co.il>  Fri, 18 Nov 2005 00:59:24 +0200
+
+pyfribidi 0.3.1
+
+  * adopted package for ubuntu
+  * build python2.3 and python2.4 packages now
+  * use cdbs instead of plain debhelper
+
+ -- Stefan Potyra <sistpoty@ubuntu.com>  Wed, 16 Nov 2005 22:30:36 +0100
+
+pyfribidi 0.3.0
+
+  * FIXME: Allways use fribidi Right-To-Left embedding, for stas
+
+ -- kobi <kzamir@walla.co.il>  Thu, 10 Nov 2005 08:59:24 +0200
+ 
+pyfribidi 0.2.0
+
+  * Tzafrir Cohen: vis2log -> log2vis
+
+ -- kobi <kzamir@walla.co.il>  Thu, 10 Nov 2005 08:59:24 +0200
+
+pyfribidi 0.1.0-1
+
+  * Initial release
+
+ -- kobi <kzamir@walla.co.il>  Thu, 10 Nov 2005 00:59:24 +0200

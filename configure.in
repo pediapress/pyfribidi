@@ -1,0 +1,69 @@
+AC_INIT(pyfribidi.c)
+
+AM_INIT_AUTOMAKE(pyfribidi, 0.10.0)
+
+AC_ISC_POSIX
+AC_PROG_CC
+AC_PROG_INSTALL
+
+AC_C_CONST
+
+AC_PATH_PROG(PKG_CONFIG, pkg-config, no)
+
+dnl FriBdi
+dnl ======
+
+PKG_CHECK_MODULES(fribidi, fribidi)
+
+PY_CFLAGS="$PY_CFLAGS  $fribidi_CFLAGS"
+PY_LIBS="$PY_LIBS $fribidi_LIBS"
+
+dnl Python
+dnl ======
+
+AC_CHECK_PROG(have_python, "python", yes, no)
+
+if test "x$have_python" = "xyes"; then
+
+    PY_PREFIX=`python -c 'import sys ; print sys.prefix'`
+    PY_VERSION=`python -c 'import sys ; print sys.version[[0:3]]'`
+    
+    PY_CFLAGS="$PY_LIBS $PY_CFLAGS -I$PY_PREFIX/include/python$PY_VERSION"
+    PY_MODULES_PATH="$PY_PREFIX/lib/python$PY_VERSION/site-packages"
+    
+    AC_SUBST([PY_CFLAGS])
+    AC_SUBST([PY_MODULES_PATH])
+    
+    AC_MSG_CHECKING(for $PY_PREFIX/include/python$PY_VERSION/Python.h)
+    
+    if test -f $PY_PREFIX/include/python$PY_VERSION/Python.h; then
+        AC_MSG_RESULT(yes)
+        have_python=yes      
+    else
+        AC_MSG_RESULT(no)
+        have_python=no  
+    fi
+    
+fi
+
+AC_OUTPUT([
+Makefile
+])
+
+dnl ERROR
+dnl =====
+
+if test "x$have_python" = "xno"; then
+    echo
+    echo "ERROR: You do not have python-devel on your system"
+    echo "Check for package name like python-dev for your system"
+    echo
+else
+    echo
+    echo "PyFribidi version is $VERSION"
+    echo
+    echo "Python version is $PY_VERSION"
+    echo "Python modules path is $PY_MODULES_PATH"
+    echo "Type make to buils pyfribidi"
+    echo
+fi
