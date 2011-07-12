@@ -230,7 +230,7 @@ log2vis_utf8 (PyObject * string, int unicode_length,
 
 	/* Allocate fribidi UTF-8 buffer */
 
-	visual_utf8 = PyMem_New(char, MAX_STR_LEN);
+	visual_utf8 = PyMem_New(char, (unicode_length * 4)+1);
 	if (visual_utf8 == NULL)
 	{
 		PyErr_SetString (PyExc_MemoryError,
