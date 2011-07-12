@@ -48,6 +48,16 @@ class UnicodeTests(unittest.TestCase):
         """ unicode: empty string """
         self.assertEqual(pyfribidi.log2vis(u''), u'')
 
+    def testBigString(self):
+        """ unicode: big string
+
+        It does not make sense to order such big strings, this just
+        checks that there are no size limits in pyfribidi.
+        """
+        # About 2MB string for default python build (ucs2)
+        big = (u'א' * 1024) * 1024
+        self.assertEqual(pyfribidi.log2vis(big), big)
+
     def testDefaultDirection(self):
         """ unicode: use RTL default """
         self.assertEqual(pyfribidi.log2vis(u"hello - שלום"),
@@ -80,6 +90,16 @@ class UTF8Tests(unittest.TestCase):
     def testEmpty(self):
         """ utf8: empty string """
         self.assertEqual(pyfribidi.log2vis(''), '')
+
+    def testBigString(self):
+        """ utf8: big string
+
+        It does not make sense to order such big strings, this just
+        checks that there are no size limits in pyfribidi.
+        """
+        # About 2MB string
+        big = ('א' * 1024) * 1024
+        self.assertEqual(pyfribidi.log2vis(big), big)
 
     def testDefaultDirection(self):
         """ utf8: use RTL default """
