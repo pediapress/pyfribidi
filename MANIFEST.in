@@ -163,6 +163,5 @@ include pyfribidi.c
 include pyfribidi.h
 include pyfribidi2.py
 include setup.py
-include syspath.py
 include test_pyfribidi.py
 include time_pyfribidi.py

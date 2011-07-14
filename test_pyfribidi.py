@@ -6,7 +6,6 @@ better to reuse fribidi own tests, but its not clear what is the value
 of base_dir for those tests.
 """
 
-import syspath
 import unittest
 import pyfribidi
 from pyfribidi import RTL, LTR, ON
