@@ -6,6 +6,7 @@ better to reuse fribidi own tests, but its not clear what is the value
 of base_dir for those tests.
 """
 
+import sys
 import unittest
 import pyfribidi
 from pyfribidi import RTL, LTR, ON
@@ -153,5 +154,5 @@ class OtherEncodingsTests(unittest.TestCase):
         
 if __name__ == '__main__':
     suite = unittest.defaultTestLoader.loadTestsFromName(__name__)
-    unittest.TextTestRunner(verbosity=2).run(suite)
-
+    res = unittest.TextTestRunner(verbosity=2).run(suite)
+    sys.exit(not res.wasSuccessful())
