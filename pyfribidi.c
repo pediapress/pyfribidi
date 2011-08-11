@@ -39,12 +39,13 @@ _pyfribidi_log2vis (PyObject * self, PyObject * args, PyObject * kw)
 	FriBidiParType base = FRIBIDI_TYPE_RTL;	/* optional direction */
 	const char *encoding = "utf-8";	/* optional input string encoding */
 	int clean = 0; /* optional flag to clean the string */
+	int reordernsm = 1; /* optional flag to allow reordering of non spacing marks*/
 
 	static char *kwargs[] =
-		{ "logical", "base_direction", "encoding", "clean", NULL };
+	        { "logical", "base_direction", "encoding", "clean", "reordernsm", NULL };
 
-        if (!PyArg_ParseTupleAndKeywords (args, kw, "O|isi", kwargs,
-					  &logical, &base, &encoding, &clean))
+        if (!PyArg_ParseTupleAndKeywords (args, kw, "O|isii", kwargs,
+					  &logical, &base, &encoding, &clean, &reordernsm))
 		return NULL;
 
 	/* Validate base */
@@ -58,9 +59,9 @@ _pyfribidi_log2vis (PyObject * self, PyObject * args, PyObject * kw)
 	/* Check object type and delegate to one of the log2vis functions */
 
 	if (PyUnicode_Check (logical))
-		return log2vis_unicode (logical, base, clean);
+	        return log2vis_unicode (logical, base, clean, reordernsm);
 	else if (PyString_Check (logical))
-		return log2vis_encoded_string (logical, encoding, base, clean);
+	        return log2vis_encoded_string (logical, encoding, base, clean, reordernsm);
 	else
 		return PyErr_Format (PyExc_TypeError,
 				     "expected unicode or str, not %s",
@@ -85,7 +86,7 @@ _pyfribidi_log2vis (PyObject * self, PyObject * args, PyObject * kw)
 */
 
 static PyObject *
-log2vis_unicode (PyObject * unicode, FriBidiParType base_direction, int clean)
+log2vis_unicode (PyObject * unicode, FriBidiParType base_direction, int clean, int reordernsm)
 {
 	PyObject *logical = NULL;	/* input string encoded in utf-8 */
 	PyObject *visual = NULL;	/* output string encoded in utf-8 */
@@ -97,7 +98,7 @@ log2vis_unicode (PyObject * unicode, FriBidiParType base_direction, int clean)
 	if (logical == NULL)
 		goto cleanup;
 
-	visual = log2vis_utf8 (logical, length, base_direction, clean);
+	visual = log2vis_utf8 (logical, length, base_direction, clean, reordernsm);
 	if (visual == NULL)
 		goto cleanup;
 
@@ -128,7 +129,7 @@ log2vis_unicode (PyObject * unicode, FriBidiParType base_direction, int clean)
 
 static PyObject *
 log2vis_encoded_string (PyObject * string, const char *encoding,
-			FriBidiParType base_direction, int clean)
+			FriBidiParType base_direction, int clean, int reordernsm)
 {
 	PyObject *logical = NULL;	/* logical unicode object */
 	PyObject *result = NULL;	/* output string object */
@@ -144,12 +145,12 @@ log2vis_encoded_string (PyObject * string, const char *encoding,
 		/* Shortcut for utf8 strings (little faster) */
 		result = log2vis_utf8 (string,
 				       PyUnicode_GET_SIZE (logical),
-				       base_direction, clean);
+				       base_direction, clean, reordernsm);
 	else
 	{
 		/* Invoke log2vis_unicode and encode back to encoding */
 
-		PyObject *visual = log2vis_unicode (logical, base_direction, clean);
+		PyObject *visual = log2vis_unicode (logical, base_direction, clean, reordernsm);
 
 		if (visual)
 		{
@@ -185,7 +186,7 @@ log2vis_encoded_string (PyObject * string, const char *encoding,
 
 static PyObject *
 log2vis_utf8 (PyObject * string, int unicode_length,
-	      FriBidiParType base_direction, int clean)
+	      FriBidiParType base_direction, int clean, int reordernsm)
 {
 	FriBidiChar *logical = NULL; /* input fribidi unicode buffer */
 	FriBidiChar *visual = NULL;	 /* output fribidi unicode buffer */
@@ -212,7 +213,7 @@ log2vis_utf8 (PyObject * string, int unicode_length,
 	}
 
 	/* Convert to unicode and order visually */
-
+	fribidi_set_reorder_nsm(reordernsm);
 	fribidi_utf8_to_unicode (PyString_AS_STRING (string),
 				 PyString_GET_SIZE (string), logical);
 

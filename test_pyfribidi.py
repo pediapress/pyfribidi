@@ -82,6 +82,18 @@ class UnicodeTests(unittest.TestCase):
         """ unicode: reorder RTL line by natural order """
         self.assertEqual(pyfribidi.log2vis(u"שלום - hello", ON),
                          u"hello - םולש")
+
+    def testNoReorderNonSpacingMarks(self):
+        """unicode: reorder non spacing marks"""
+        self.assertEqual(pyfribidi.log2vis(u"חַיְפַא", RTL, reordernsm=False),
+                         u"אַפְיַח"
+                         )
+
+    def testReorderNonSpacingMarks(self):
+        """unicode: reorder non spacing marks"""
+        self.assertEqual(pyfribidi.log2vis(u"חַיְפַא", RTL),
+                         u"אפַיְחַ"
+                         )
                              
     
 class UTF8Tests(unittest.TestCase):
@@ -125,6 +137,19 @@ class UTF8Tests(unittest.TestCase):
         """ utf8: reorder RTL line by natural order """
         self.assertEqual(pyfribidi.log2vis("שלום - hello", ON),
                          "hello - םולש")
+
+
+    def testNoReorderNonSpacingMarks(self):
+        """utf8: reorder non spacing marks"""
+        self.assertEqual(pyfribidi.log2vis("חַיְפַא", RTL, reordernsm=False),
+                         "אַפְיַח"
+                         )
+
+    def testReorderNonSpacingMarks(self):
+        """unicode: reorder non spacing marks"""
+        self.assertEqual(pyfribidi.log2vis("חַיְפַא", RTL),
+                         "אפַיְחַ"
+                         )
 
 
 class OtherEncodingsTests(unittest.TestCase):
