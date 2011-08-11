@@ -86,7 +86,7 @@ def read_long_description():
 
 
 setup(name="pyfribidi",
-      version="0.10.0",
+      version="0.10.1",
       description="Python libfribidi interface",
       author="Yaacov Zamir, Nir Soffer",
       author_email="kzamir@walla.co.il",

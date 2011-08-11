@@ -1,3 +1,9 @@
+pyfribidi 0.10.1
+
+ * Expose reordernsm flag (reorder Non-Spacing-Marks) in log2vis
+
+ -- volker <volker.haas@brainbot.com> Thu, Aug 11 12:23:37 CEST 2011
+
 pyfribidi 0.10.0
 
  * Change the package number in the setup.py script
