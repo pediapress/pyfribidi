@@ -31,14 +31,14 @@ static PyObject *_pyfribidi_log2vis (PyObject * self, PyObject * args,
 				     PyObject * kw);
 
 static PyObject *log2vis_unicode (PyObject * unicode,
-				  FriBidiParType base_direction, int clean);
+				  FriBidiParType base_direction, int clean, int reordernsm);
 
 static PyObject *log2vis_encoded_string (PyObject * string,
 					 const char *encoding,
-					 FriBidiParType base_direction, int clean);
+					 FriBidiParType base_direction, int clean, int reordernsm);
 
 static PyObject *log2vis_utf8 (PyObject * string, int unicode_length,
-			       FriBidiParType base_direction, int clean);
+			       FriBidiParType base_direction, int clean, int reordernsm);
 
 PyMODINIT_FUNC initpyfribidi (void);
 
