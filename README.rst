@@ -11,7 +11,10 @@ easy_install/pip install the wrapper. Therefor it includes the
 complete source of the fribidi library.
 
 The source for this version can be found here:
-https://github.com/schmir/pyfribidi
+https://github.com/pediapress/pyfribidi
 
 The original homepage can be found here:
 http://pyfribidi.sourceforge.net/
+
+pyfribidi's PyPI page can be found here:
+http://pypi.python.org/pypi/pyfribidi/
