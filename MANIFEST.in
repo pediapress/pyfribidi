@@ -159,6 +159,7 @@ include fribidi-src/test/test_UTF-8_persian.reference
 include fribidi-src/test/test_UTF-8_reordernsm.input
 include fribidi-src/test/test_UTF-8_reordernsm.reference
 include fribidi_systray.py
+include my_build_ext.py
 include pyfribidi.c
 include pyfribidi.py
 include pyfribidi2.py

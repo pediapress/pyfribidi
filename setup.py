@@ -3,6 +3,7 @@
 from distutils.core import setup
 from distutils.extension import Extension
 from distutils.command import build_ext
+from my_build_ext import build_ext as _link_build_ext
 
 import os
 
@@ -15,7 +16,7 @@ if os.environ.get("USE_SYSTEM_LIB", "False").lower() in ("yes", "1", "true"):
     USE_SYSTEM_LIB = True
 
 
-class my_build_ext(build_ext.build_ext):
+class my_build_ext(_link_build_ext):
     def build_extension(self, ext):
         configure = os.path.abspath("fribidi-src/configure")
         bdir = os.path.join(self.build_temp, "fribidi")
@@ -32,7 +33,7 @@ class my_build_ext(build_ext.build_ext):
         self.include_dirs[:0] = [bdir, "%s/lib" % bdir]
         self.compiler.set_include_dirs(self.include_dirs)
 
-        return build_ext.build_ext.build_extension(self, ext)
+        return _link_build_ext.build_extension(self, ext)
 
 
 def _getpkgconfigvalue(value, package="fribidi"):
