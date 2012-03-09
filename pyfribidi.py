@@ -5,6 +5,7 @@ algorithm. pyfribidi can also convert text from visual order to
 logical order, but the conversion may be wrong in certain cases.
 """
 
+__version__ = "0.11.0"
 from _pyfribidi import LTR, ON, RTL, log2vis as _log2vis
 
 def log2vis(logical, base_direction=RTL, encoding="utf-8", clean=False, reordernsm=True):

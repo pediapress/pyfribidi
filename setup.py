@@ -80,20 +80,24 @@ fribidi-src/charset/fribidi-char-sets-iso8859-6.c
         define_macros = [("HAVE_CONFIG_H", 1)]
 
 
-def read_long_description():
-    fn = os.path.join(os.path.dirname(os.path.abspath(__file__)), "README.rst")
-    return open(fn).read()
+def get_version():
+    d = {}
+    try:
+        execfile("pyfribidi.py", d, d)
+    except (ImportError, RuntimeError):
+        pass
+    return d["__version__"]
 
 
 setup(name="pyfribidi",
-      version="0.10.1",
+      version=get_version(),
       description="Python libfribidi interface",
       author="Yaacov Zamir, Nir Soffer",
       author_email="kzamir@walla.co.il",
-      url="http://hspell-gui.sourceforge.net/pyfribidi.html",
+      url="https://github.com/pediapress/pyfribidi",
       license="GPL",
       cmdclass={'build_ext': my_build_ext},
-      long_description=read_long_description(),
+      long_description=open("README.rst").read(),
       py_modules=["pyfribidi", "pyfribidi2"],
       ext_modules=[Extension(
             name='_pyfribidi',
