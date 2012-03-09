@@ -160,7 +160,7 @@ include fribidi-src/test/test_UTF-8_reordernsm.input
 include fribidi-src/test/test_UTF-8_reordernsm.reference
 include fribidi_systray.py
 include pyfribidi.c
-include pyfribidi.h
+include pyfribidi.py
 include pyfribidi2.py
 include setup.cfg
 include setup.py
