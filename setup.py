@@ -54,7 +54,7 @@ if USE_SYSTEM_LIB:
     include_dirs = _getpkgconfigvalue("cflags-only-I") or ["/usr/include/fribidi"]
     libraries = _getpkgconfigvalue("libs-only-l") or ["fribidi"]
     define_macros = []
-    my_build_ext = build_ext.build_ext
+    my_build_ext = _link_build_ext
 else:
         lib_sources = """
 fribidi-src/lib/fribidi.c
