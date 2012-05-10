@@ -1,3 +1,23 @@
+pyfribidi 0.11.0  -- 2012-03-09
+
+ * use greenlet's my_build_ext for a better inplace build
+
+ * refactor pyfribidi.c module
+
+   pyfribidi.c is now compiled as _pyfribidi. This module only handles
+   unicode internally and doesn't use the fribidi_utf8_to_unicode
+   function (which can't handle 4 byte utf-8 sequences). This fixes the
+   buffer overflow in issue #2.
+
+   The code is now also much simpler: pyfribidi.c is down from 280 to 130
+   lines of code.
+
+   We now ship a pure python pyfribidi that handles the case when
+   non-unicode strings are passed in.
+
+   We now also adapt the size of the output string if clean=True is
+   passed.
+
 pyfribidi 0.10.1
 
  * Expose reordernsm flag (reorder Non-Spacing-Marks) in log2vis
@@ -7,22 +27,22 @@ pyfribidi 0.10.1
 pyfribidi 0.10.0
 
  * Change the package number in the setup.py script
- 
+
  -- kobi <kzamir@walla.co.il>  Wed, 3 Feb 2009 19:03:11 +0200
- 
+
 pyfribidi 0.9.0
 
  * Use fribidi 0.19 and above.
  * Re-Change the package name from pyfribidi2 to pyfribidi
- 
+
  -- kobi <kzamir@walla.co.il>  Wed, 3 Feb 2009 12:59:24 +0200
- 
+
 pyfribidi 0.8.0
 
  * Yoann Roman: Fix Buffer too small with Arabic joining.
  * Use fribidi2, fribidi 0.19 and above.
  * Change the package name from pyfribidi to pyfribidi2
- 
+
  -- kobi <kzamir@walla.co.il>  Fri, 13 Mar 2009 12:59:24 +0200
 
 pyfribidi 0.5.0
@@ -81,7 +101,7 @@ pyfribidi 0.3.0
   * FIXME: Allways use fribidi Right-To-Left embedding, for stas
 
  -- kobi <kzamir@walla.co.il>  Thu, 10 Nov 2005 08:59:24 +0200
- 
+
 pyfribidi 0.2.0
 
   * Tzafrir Cohen: vis2log -> log2vis
