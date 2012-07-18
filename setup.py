@@ -47,7 +47,7 @@ def _getpkgconfigvalue(value, package="fribidi"):
     l = []
     for y in x.split(" "):
         l.append(y[2:])
-    return l
+    return [x.strip() for x in l if x.strip()]
 
 if USE_SYSTEM_LIB:
     lib_sources = []
