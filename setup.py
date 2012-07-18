@@ -4,16 +4,14 @@ from distutils.core import setup
 from distutils.extension import Extension
 from distutils.command import build_ext
 from my_build_ext import build_ext as _link_build_ext
+from distutils.util import strtobool
 
 import os
 
-USE_SYSTEM_LIB = False
+EMBED = strtobool(os.environ.get("EMBED", "1"))
 
 if not os.path.exists("fribidi-src"):
-    USE_SYSTEM_LIB = True
-
-if os.environ.get("USE_SYSTEM_LIB", "False").lower() in ("yes", "1", "true"):
-    USE_SYSTEM_LIB = True
+    EMBED = False
 
 
 class my_build_ext(_link_build_ext):
@@ -49,7 +47,7 @@ def _getpkgconfigvalue(value, package="fribidi"):
         l.append(y[2:])
     return [x.strip() for x in l if x.strip()]
 
-if USE_SYSTEM_LIB:
+if not EMBED:
     lib_sources = []
     include_dirs = _getpkgconfigvalue("cflags-only-I") or ["/usr/include/fribidi"]
     libraries = _getpkgconfigvalue("libs-only-l") or ["fribidi"]
