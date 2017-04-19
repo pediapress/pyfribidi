@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 
+from past.builtins import execfile
 import os
-
 from distutils.core import setup
 from distutils.extension import Extension
 from distutils.command import build_ext
-from my_build_ext import build_ext as _link_build_ext
 from distutils.util import strtobool
+
+from my_build_ext import build_ext as _link_build_ext
 
 EMBED = strtobool(os.environ.get("EMBED", "1"))
 

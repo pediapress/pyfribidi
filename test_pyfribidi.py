@@ -8,6 +8,7 @@ of base_dir for those tests.
 
 import sys
 import unittest
+
 import pyfribidi
 from pyfribidi import RTL, LTR, ON
 
@@ -21,7 +22,7 @@ class InputTests(unittest.TestCase):
     def testRequireInputString(self):
         """ input: require input string or unicode """
         self.assertRaises(TypeError, pyfribidi.log2vis)
-        
+
     def testInvalidInputString(self):
         """ input: raise TypeError for non string or unicode input """
         self.assertRaises(TypeError, pyfribidi.log2vis, 1)
@@ -40,8 +41,8 @@ class InputTests(unittest.TestCase):
         """ input: raise UnicodeError for invalid encoded string """
         self.assertRaises(UnicodeError, pyfribidi.log2vis, "שלום",
                           encoding='iso8859-8')
-        
-        
+
+
 class UnicodeTests(unittest.TestCase):
 
     def testEmpty(self):
@@ -176,10 +177,15 @@ class OtherEncodingsTests(unittest.TestCase):
                                            encoding=charset),
                          u"hello - םולש".encode(charset))
 
+
 class Crasher(unittest.TestCase):
     def test_glibc_free_invalid_next_size(self):
-        # *** glibc detected *** /home/ralf/py27/bin/python2: free(): invalid next size (fast): 0x00000000011cff00 ***
-        pyfribidi.log2vis('\xf0\x90\x8e\xa2\xf0\x90\x8e\xaf\xf0\x90\x8e\xb4\xf0\x90\x8e\xa1\xf0\x90\x8f\x83')
+        # *** glibc detected *** /home/ralf/py27/bin/python2: free(): invalid
+        # next size (fast): 0x00000000011cff00 ***
+        pyfribidi.log2vis(
+            '\xf0\x90\x8e\xa2\xf0\x90\x8e\xaf\xf0\x90\x8e\xb4\xf0\x90\x8e\xa1'
+            '\xf0\x90\x8f\x83')
+
 
 if __name__ == '__main__':
     suite = unittest.defaultTestLoader.loadTestsFromName(__name__)
