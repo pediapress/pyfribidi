@@ -3,7 +3,9 @@
 """ 
 time pyfribidi with all hebrew encodings.
 """
+from __future__ import print_function
 
+from builtins import range
 import syspath
 import timeit
 import pyfribidi
@@ -30,24 +32,24 @@ if '%(encoding)s' != 'unicode':
     timer = timeit.Timer(code, setup)
     seconds = timer.timeit(number=tests)
     microseconds = 1000000 * seconds / tests
-    print "%12s: %.8f seconds (%.2f usec/pass)" % (encoding, seconds,
-                                                   microseconds)
+    print("%12s: %.8f seconds (%.2f usec/pass)" % (encoding, seconds,
+                                                   microseconds))
 
     
 # warm up caches
-for i in xrange(100000):
+for i in range(100000):
     pyfribidi.log2vis(u'Some text to warm up the caches')
 
 lines = 50 # typical screen of text
-print
-print 'time to rerorder %s lines:' % lines
-print
+print()
+print('time to rerorder %s lines:' % lines)
+print()
 for encoding in hebrew_encodings:
     timeEncoding(encoding, lines)
 
 lines = 100000 
-print
-print 'time to rerorder %s lines:' % lines
-print
+print()
+print('time to rerorder %s lines:' % lines)
+print()
 for encoding in hebrew_encodings:
     timeEncoding(encoding, lines)
