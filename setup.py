@@ -82,7 +82,7 @@ fribidi-src/charset/fribidi-char-sets-iso8859-6.c
 def get_version():
     d = {}
     try:
-        execfile("pyfribidi.py", d, d)
+        exec(compile(open("pyfribidi.py", "rb").read(), "pyfribidi.py", 'exec'), d, d)
     except (ImportError, RuntimeError):
         pass
     return d["__version__"]
@@ -95,6 +95,9 @@ setup(name="pyfribidi",
       author_email="kzamir@walla.co.il",
       url="https://github.com/pediapress/pyfribidi",
       license="GPL",
+      install_requires=[
+          "six",
+      ],
       cmdclass={'build_ext': my_build_ext},
       long_description=open("README.rst").read(),
       py_modules=["pyfribidi", "pyfribidi2"],
