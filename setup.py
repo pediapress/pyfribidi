@@ -82,7 +82,7 @@ fribidi-src/charset/fribidi-char-sets-iso8859-6.c
 def get_version():
     d = {}
     try:
-        execfile("pyfribidi.py", d, d)
+        exec(compile(open("pyfribidi.py", "rb").read(), "pyfribidi.py", 'exec'), d, d)
     except (ImportError, RuntimeError):
         pass
     return d["__version__"]
