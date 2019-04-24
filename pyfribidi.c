@@ -21,17 +21,25 @@
 #include <Python.h>
 #include <fribidi.h>
 
+#if PY_MAJOR_VERSION >= 3
+#define PYFRIBIDI_UNICODE_OBJECT PyObject
+#else
+#define PYFRIBIDI_UNICODE_OBJECT PyUnicodeObject
+#endif
 
 static PyObject *
-unicode_log2vis (PyUnicodeObject* string,
+unicode_log2vis (PYFRIBIDI_UNICODE_OBJECT * string,
                  FriBidiParType base_direction, int clean, int reordernsm)
 {
     int i;
+#if PY_MAJOR_VERSION >= 3
+    Py_ssize_t length = PyUnicode_GetLength(string);
+#else
     int length = string->length;
+#endif
     FriBidiChar *logical = NULL; /* input fribidi unicode buffer */
     FriBidiChar *visual = NULL;      /* output fribidi unicode buffer */
-    FriBidiStrIndex new_len = 0; /* length of the UTF-8 buffer */
-    PyUnicodeObject *result = NULL;
+    PYFRIBIDI_UNICODE_OBJECT *result = NULL;
 
     /* Allocate fribidi unicode buffers
        TODO - Don't copy strings if sizeof(FriBidiChar) == sizeof(Py_UNICODE)
@@ -49,9 +57,7 @@ unicode_log2vis (PyUnicodeObject* string,
         goto cleanup;
     }
 
-    for (i=0; i<length; ++i) {
-        logical[i] = string->str[i];
-    }
+    PyUnicode_AsWideChar(string, logical, length);
 
     /* Convert to unicode and order visually */
     fribidi_set_reorder_nsm(reordernsm);
@@ -69,13 +75,9 @@ unicode_log2vis (PyUnicodeObject* string,
         length = fribidi_remove_bidi_marks (visual, length, NULL, NULL, NULL);
     }
 
-    result = (PyUnicodeObject*) PyUnicode_FromUnicode(NULL, length);
+    result = PyUnicode_FromWideChar(visual, length);
     if (result == NULL) {
         goto cleanup;
-    }
-
-    for (i=0; i<length; ++i) {
-        result->str[i] = visual[i];
     }
 
   cleanup:
@@ -89,7 +91,7 @@ unicode_log2vis (PyUnicodeObject* string,
 static PyObject *
 _pyfribidi_log2vis (PyObject * self, PyObject * args, PyObject * kw)
 {
-    PyUnicodeObject *logical = NULL;	/* input unicode or string object */
+    PYFRIBIDI_UNICODE_OBJECT *logical = NULL;	/* input unicode or string object */
     FriBidiParType base = FRIBIDI_TYPE_RTL;	/* optional direction */
     int clean = 0; /* optional flag to clean the string */
     int reordernsm = 1; /* optional flag to allow reordering of non spacing marks*/
@@ -112,7 +114,9 @@ _pyfribidi_log2vis (PyObject * self, PyObject * args, PyObject * kw)
                              base);
     }
 
-    return unicode_log2vis (logical, base, clean, reordernsm);
+    PyObject * return_pyobject = unicode_log2vis (logical, base, clean, reordernsm);
+
+    return return_pyobject;
 }
 
 
@@ -121,12 +125,38 @@ static PyMethodDef PyfribidiMethods[] = {
 	{NULL, NULL, 0, NULL}
 };
 
+#if PY_MAJOR_VERSION >= 3
+
+static struct PyModuleDef pyfribidi_moduledef = {
+  PyModuleDef_HEAD_INIT, /* m_base */
+  "pyfribidi", /* m_name */
+  NULL, /* m_doc */
+  -1, /* m_size == -1 means cannot be reinitialized */
+  PyfribidiMethods, //
+  NULL, //  myextension_traverse,
+  NULL, //  myextension_clear,
+  NULL
+};
 
 PyMODINIT_FUNC
+PyInit__pyfribidi (void)
+#else
+
+void
 init_pyfribidi (void)
+#endif
 {
+#if PY_MAJOR_VERSION >= 3
+        PyObject *module = PyModule_Create (&pyfribidi_moduledef);
+#else
         PyObject *module = Py_InitModule ("_pyfribidi", PyfribidiMethods);
+#endif
+	if (module == NULL) return NULL;
+
 	PyModule_AddIntConstant (module, "RTL", (long) FRIBIDI_TYPE_RTL);
 	PyModule_AddIntConstant (module, "LTR", (long) FRIBIDI_TYPE_LTR);
 	PyModule_AddIntConstant (module, "ON", (long) FRIBIDI_TYPE_ON);
+#if PY_MAJOR_VERSION >= 3
+	return module;
+#endif
 }

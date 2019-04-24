@@ -21,7 +21,7 @@ class InputTests(unittest.TestCase):
     def testRequireInputString(self):
         """ input: require input string or unicode """
         self.assertRaises(TypeError, pyfribidi.log2vis)
-        
+
     def testInvalidInputString(self):
         """ input: raise TypeError for non string or unicode input """
         self.assertRaises(TypeError, pyfribidi.log2vis, 1)
@@ -33,15 +33,17 @@ class InputTests(unittest.TestCase):
 
     def testUnknownEncoding(self):
         """ input: raise LookupError for invalid encoding """
-        self.assertRaises(LookupError, pyfribidi.log2vis, "שלום",
+        encoded = u"שלום".encode('utf-8')
+        self.assertRaises(LookupError, pyfribidi.log2vis, encoded,
                           encoding='foo')
 
     def testInvalidEncodedString(self):
         """ input: raise UnicodeError for invalid encoded string """
-        self.assertRaises(UnicodeError, pyfribidi.log2vis, "שלום",
+        encoded = u"שלום".encode('utf-8')
+        self.assertRaises(UnicodeError, pyfribidi.log2vis, encoded,
                           encoding='iso8859-8')
-        
-        
+
+
 class UnicodeTests(unittest.TestCase):
 
     def testEmpty(self):
@@ -94,11 +96,11 @@ class UnicodeTests(unittest.TestCase):
         self.assertEqual(pyfribidi.log2vis(u"חַיְפַא", RTL),
                          u"אפַיְחַ"
                          )
-                             
-    
+
+
 class UTF8Tests(unittest.TestCase):
     """ Same tests for utf8, used mainly on linux """
-    
+
     def testEmpty(self):
         """ utf8: empty string """
         self.assertEqual(pyfribidi.log2vis(''), '')
@@ -117,7 +119,7 @@ class UTF8Tests(unittest.TestCase):
         """ utf8: use RTL default """
         self.assertEqual(pyfribidi.log2vis("hello - שלום"),
                          pyfribidi.log2vis("hello - שלום", RTL))
-    
+
     def testAsRTL(self):
         """ utf8: reorder line as RTL """
         self.assertEqual(pyfribidi.log2vis("hello - שלום", RTL),
@@ -127,12 +129,12 @@ class UTF8Tests(unittest.TestCase):
         """ utf8: reorder line as LTR """
         self.assertEqual(pyfribidi.log2vis("hello - שלום", LTR),
                          "hello - םולש")
-    
+
     def testNaturalLTR(self):
         """ utf8: reorder LTR line by natural order """
         self.assertEqual(pyfribidi.log2vis("hello - שלום", ON),
                          "hello - םולש")
-    
+
     def testNaturalRTL(self):
         """ utf8: reorder RTL line by natural order """
         self.assertEqual(pyfribidi.log2vis("שלום - hello", ON),
@@ -154,14 +156,14 @@ class UTF8Tests(unittest.TestCase):
 
 class OtherEncodingsTests(unittest.TestCase):
     """ Minimal tests for other encodings """
-    
+
     def testIso8859_8NaturalRTL(self):
         """ other encodings: iso8859-8 """
         charset = 'iso8859-8'
         self.assertEqual(pyfribidi.log2vis(u"שלום - hello".encode(charset),
                                            encoding=charset),
                          u"hello - םולש".encode(charset))
-    
+
     def testCp1255NaturalRTL(self):
         """ other encodings: cp1255 """
         charset = 'cp1255'
@@ -183,5 +185,5 @@ class Crasher(unittest.TestCase):
 
 if __name__ == '__main__':
     suite = unittest.defaultTestLoader.loadTestsFromName(__name__)
-    res = unittest.TextTestRunner(verbosity=2).run(suite)
+    res = unittest.TextTestRunner(verbosity=1).run(suite)
     sys.exit(not res.wasSuccessful())
