@@ -88,7 +88,7 @@ class UnicodeTests(unittest.TestCase):
     def testNoReorderNonSpacingMarks(self):
         """unicode: reorder non spacing marks"""
         self.assertEqual(pyfribidi.log2vis(u"חַיְפַא", RTL, reordernsm=False),
-                         u"אַפְיַח"
+                         u"אפַיְחַ"
                          )
 
     def testReorderNonSpacingMarks(self):
@@ -144,7 +144,7 @@ class UTF8Tests(unittest.TestCase):
     def testNoReorderNonSpacingMarks(self):
         """utf8: reorder non spacing marks"""
         self.assertEqual(pyfribidi.log2vis("חַיְפַא", RTL, reordernsm=False),
-                         "אַפְיַח"
+                         "אפַיְחַ"
                          )
 
     def testReorderNonSpacingMarks(self):
