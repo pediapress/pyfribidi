@@ -148,10 +148,11 @@ init_pyfribidi (void)
 {
 #if PY_MAJOR_VERSION >= 3
         PyObject *module = PyModule_Create (&pyfribidi_moduledef);
+        if (module == NULL) return NULL;
 #else
         PyObject *module = Py_InitModule ("_pyfribidi", PyfribidiMethods);
+        if (module == NULL) return;
 #endif
-	if (module == NULL) return NULL;
 
 	PyModule_AddIntConstant (module, "RTL", (long) FRIBIDI_TYPE_RTL);
 	PyModule_AddIntConstant (module, "LTR", (long) FRIBIDI_TYPE_LTR);
